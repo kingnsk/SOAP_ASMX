@@ -1,0 +1,50 @@
+﻿@model LibraryService.WebClient.Models.BookCategoryViewModel
+
+@*<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+*@
+
+<form asp-controller="Library" asp-action="Index">
+    <p>
+        <select asp-for="SearchType" asp-items="Html.GetEnumSelectList<SearchType>()">
+        </select>
+
+        <input type="text" name="SearchString" />
+
+        <input type="submit" value="Поиск" />
+    </p>
+</form>
+
+<table class="table">
+    <thead>
+        <th>
+            <b>Заголовок</b>
+@*            @Html.DisplayNameFor(model => model.Books[0].Title)
+*@        </th>
+        <th>
+        <b>Категория</b>
+@*            @Html.DisplayNameFor(model => model.Books[0].Category)
+*@        </th>
+        <th>
+            <b>Автор</b>
+@*            @Html.DisplayNameFor(model => model.Books[0].Authors)
+*@        </th>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Authors)
+                </td>
+            </tr>
+        }
+    </tbody>
