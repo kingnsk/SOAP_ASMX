@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="43f66141-45ed-4536-8abf-4071fbd5e74c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:50807/ExecutionService.svc?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ExecutionService.xsd" MetadataType="Schema" ID="3609cef7-7690-430b-9fdc-7ba5c0cb0760" SourceId="1" SourceUrl="http://localhost:50807/ExecutionService.svc?xsd=xsd0" />
+    <MetadataFile FileName="ExecutionService.wsdl" MetadataType="Wsdl" ID="f89509d6-94c0-491b-861d-6f34c3cfdd9b" SourceId="1" SourceUrl="http://localhost:50807/ExecutionService.svc?wsdl" />
+    <MetadataFile FileName="ExecutionService1.xsd" MetadataType="Schema" ID="e475956e-8f16-4837-9e4c-7208adc84c9f" SourceId="1" SourceUrl="http://localhost:50807/ExecutionService.svc?xsd=xsd1" />
+    <MetadataFile FileName="ExecutionService1.wsdl" MetadataType="Wsdl" ID="9ef31a68-f9dc-4dc5-a410-20877f602ccc" SourceId="1" SourceUrl="http://localhost:50807/ExecutionService.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="ExecutionService2.xsd" MetadataType="Schema" ID="2866627f-3aef-4f97-8a81-a4f2b678c5c4" SourceId="1" SourceUrl="http://localhost:50807/ExecutionService.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
