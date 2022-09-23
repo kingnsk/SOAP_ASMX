@@ -65,7 +65,7 @@ namespace ClinicService.Services.Impl
             if (client == null)
                 throw new KeyNotFoundException();
 
-            client.SurName = item.SurName;
+            client.Surname = item.Surname;
             client.FirstName = item.FirstName;
             client.Patronymic = item.Patronymic;
             client.Document = item.Document;

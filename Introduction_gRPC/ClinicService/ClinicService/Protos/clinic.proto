@@ -2,7 +2,8 @@ syntax = "proto3";
 
 option csharp_namespace = "ClinicServiceProtos";
 
-package ClinicServiceProros;
+package ClinicServiceProtos;
+
 
 service ClinicClientService{
 
@@ -12,14 +13,13 @@ service ClinicClientService{
 	rpc GetClientById (GetClientByIdRequest) returns (ClientResponse);
 	rpc GetClients (GetClientsRequest) returns (GetClientsResponse);
 
-
 }
 
 message CreateClientRequest{
 	string document = 1;
 	string surname = 2;
-	string firstName = 3;
-	string patronymic = 4;
+    string firstName = 3;
+    string patronymic = 4;
 }
 
 message CreateClientResponse{
