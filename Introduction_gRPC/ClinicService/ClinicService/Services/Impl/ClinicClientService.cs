@@ -7,6 +7,7 @@ namespace ClinicService.Services.Impl
 {
     public class ClinicClientService : ClinicClientServiceBase
     {
+        
         #region Serives
 
         private readonly ClinicServiceDbContext _dbContext;
@@ -30,7 +31,7 @@ namespace ClinicService.Services.Impl
             var client = new Client
             {
                 Document = request.Document,
-                SurName = request.Surname,
+                Surname = request.Surname,
                 FirstName = request.FirstName,
                 Patronymic = request.Patronymic
             };
@@ -57,7 +58,7 @@ namespace ClinicService.Services.Impl
                 Document = client.Document,
                 FirstName = client.FirstName,
                 Patronymic = client.Patronymic,
-                Surname = client.SurName
+                Surname = client.Surname
             }).ToList());
 
             return Task.FromResult(response);

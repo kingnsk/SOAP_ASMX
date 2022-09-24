@@ -10,16 +10,18 @@ namespace ClinicClient
             AppContext.SetSwitch(
                 "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             var channel = GrpcChannel.ForAddress("http://localhost:5001");
+            //var channel = GrpcChannel.ForAddress("http://192.168.1.217:5001");
+
 
 
             ClinicClientServiceClient client = new ClinicClientServiceClient(channel);
 
             var createClientResponse = client.CreateClient(new ClinicServiceProtos.CreateClientRequest
             {
-                Document = "5003 445577",
-                FirstName = "Иван",
-                Surname = "Григорьев",
-                Patronymic = "Иванович"
+                Document = "PASS123",
+                FirstName = "cтаниcлав",
+                Surname = "Байраковcкий",
+                Patronymic = "Антонович"
             });
 
             Console.WriteLine($"Client ({createClientResponse.ClientId}) created successfully.");
@@ -27,7 +29,7 @@ namespace ClinicClient
             var getClientsResponse = client.GetClients(new ClinicServiceProtos.GetClientsRequest());
 
             Console.WriteLine("Clients:");
-            Console.WriteLine("--------------------------------\n");
+            Console.WriteLine("========\n");
             foreach (var clientObj in getClientsResponse.Clients)
             {
                 Console.WriteLine($"{clientObj.Document} >> {clientObj.Surname} {clientObj.FirstName}");

@@ -38,7 +38,7 @@ namespace ClinicService.Controllers
             return Ok(_clientRepository.Add(new Client
             {
                 Document = createRequest.Document,
-                SurName = createRequest.SurName,
+                Surname = createRequest.Surname,
                 FirstName = createRequest.FirstName,
                 Patronymic = createRequest.Patronymic
             }));
@@ -51,7 +51,7 @@ namespace ClinicService.Controllers
             _clientRepository.Update(new Client
             {
                 ClientId = updateRequest.ClientId,
-                SurName = updateRequest.SurName,
+                Surname = updateRequest.Surname,
                 FirstName = updateRequest.FirstName,
                 Patronymic = updateRequest.Patronymic,
                 Document = updateRequest.Document,

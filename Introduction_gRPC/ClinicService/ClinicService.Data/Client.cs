@@ -20,7 +20,7 @@ namespace ClinicService.Data
 
         [Column]
         [StringLength(255)]
-        public string? SurName { get; set; }
+        public string? Surname { get; set; }
 
         [Column]
         [StringLength(255)]
