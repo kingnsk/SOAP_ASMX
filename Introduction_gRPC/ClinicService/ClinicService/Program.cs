@@ -1,11 +1,15 @@
+using Microsoft.OpenApi.Models;
 using ClinicService.Data;
 using ClinicService.Services;
 using ClinicService.Services.Impl;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NLog.Web;
 using System.Net;
+using System.Text;
 
 namespace ClinicService
 {
@@ -16,11 +20,13 @@ namespace ClinicService
             var builder = WebApplication.CreateBuilder(args);
 
             #region Configure gRPC
+
             builder.WebHost.ConfigureKestrel(options =>
             {
                 options.Listen(IPAddress.Any, 5001, listenoptions =>
                 {
                     listenoptions.Protocols = HttpProtocols.Http2;
+                    listenoptions.UseHttps("C:/developmentcert.pfx", "12345");
                 });
             });
 
@@ -29,6 +35,7 @@ namespace ClinicService
             #endregion
 
             #region Configure logging service
+
             builder.Services.AddHttpLogging(logging =>
             {
                 logging.LoggingFields = HttpLoggingFields.All | HttpLoggingFields.RequestQuery;
@@ -44,6 +51,7 @@ namespace ClinicService
                 logging.ClearProviders();
                 logging.AddConsole();
             }).UseNLog(new NLogAspNetCoreOptions() { RemoveLoggerFactoryFilter = true});
+            
             #endregion
 
             #region Configure EF DBContext Service (Database)
@@ -63,10 +71,71 @@ namespace ClinicService
 
             #endregion
 
+            #region Configure Services
+
+            builder.Services.AddSingleton<IAuthenticateService, AuthenticateService>();
+
+            #endregion
+
+            #region Configure JWT
+
+            builder.Services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme =
+                JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme =
+                JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new
+                    TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AuthenticateService.SecretKey)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+
+            #endregion
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Сервис клиники для животных",
+                    Version = "v1",
+                });
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Description = "JWT Authorization header using thr Bearer scheme (Example: 'Bearer 12567889gfgfg')",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme()
+                        {
+                            Reference = new OpenApiReference()
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
 
             var app = builder.Build();
 
@@ -77,7 +146,11 @@ namespace ClinicService
                 app.UseSwaggerUI();
             }
 
+            app.UseRouting();
+
+            app.UseAuthentication();
             app.UseAuthorization();
+            
 
             //app.UseHttpLogging();
             app.UseWhen( // Пообещали починить в 7 .net !
@@ -92,10 +165,10 @@ namespace ClinicService
 
             app.MapControllers();
 
-            app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<ClinicClientService>();
+                endpoints.MapGrpcService<AuthService>();
             });
 
             app.Run();
